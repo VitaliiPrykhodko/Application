@@ -1,0 +1,36 @@
+.main {
+  display: flex;
+}
+
+.cont1 {
+  width: 40%;
+}
+
+.cont2 {
+  width: 60%;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  display: block;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: aqua;
+  border-color: aqua;
+  color: gray;
+  transform: scale(1.2);
+  transition: 500ms linear;
+}
