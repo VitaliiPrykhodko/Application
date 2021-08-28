@@ -38,7 +38,7 @@ const  books = [
     какими инструментами ему нужно пользоваться.`,
 	},
 ];
-
+localStorage.setItem('books', JSON.stringify(books))
 const onList = document.querySelector('#root');
 
 
@@ -62,34 +62,68 @@ onList.append(mainEl);
 mainEl.append(div1, div2);
 div1.append(listEl, btn)
 
-
-const addTitleToList = books.map((book) => 
-     `<li class="item"><p class="title-name">${book.title}
-      </p><button type="buttom" class="btn">Edit</button>`
-)
-.join('')
-
-listEl.insertAdjacentHTML("beforeend", addTitleToList)
-
-const onTitle = listEl.querySelectorAll(".title-name")
-
-onTitle.forEach((elem) =>
-  elem.addEventListener('click', renderPrev)
-);
-// console.log(onTitle);
-
 function renderPrev(event) {
+  div2.innerHTML = ''
   const findBook = books.find((book) => book.title === event.target.textContent)
 
-  // div2.insertAdjacentHTML("beforeend", renderMarkup(findBook))
+div2.insertAdjacentHTML("beforeend", renderMarkup(findBook))
 }
 
-// function renderMarkup (book) {
-//   return `<div class="content">
-// <h1>${book.title}</h1>
-// <p>${book.author}</p>
-// <img src="${book.img}" alt="Image book" />
-// <p>${book.plot}</p>
-// </div>
-// `
+function renderMarkup (book) {
+  return `<div class="content">
+<h1>${book.title}</h1>
+<p>${book.author}</p>
+<img src="${book.img}" alt="Image book" />
+<p>${book.plot}</p>
+</div>
+`
+}
+function renderList() {
+
+  const books = JSON.parse(localStorage.getItem('books'))
+
+  const addTitleToList = books.map((book) => 
+     `<li class="item" id=${book.id}><p class="title-name">${book.title}</p><button type="buttom" class="btn-edit">Edit</button><button  type="buttom" class="btn-remove">Remove</button>`
+)
+    .join('')
+  
+listEl.innerHTML = ""
+  listEl.insertAdjacentHTML("beforeend", addTitleToList)
+
+    const onTitle = listEl.querySelectorAll(".title-name")
+  const remBtn = document.querySelectorAll('.btn-remove')
+  const editBtn = document.querySelectorAll('.btn-edit')
+
+  onTitle.forEach((elem) =>
+  elem.addEventListener('click', renderPrev)
+  );
+  
+  remBtn.forEach((elem) =>
+    elem.addEventListener('click', remBook)
+  );
+
+editBtn.forEach((elem) =>
+  elem.addEventListener('click', editList)
+  );
+ 
+}
+renderList()
+
+function remBook(event) {
+  const findBook= JSON.parse(localStorage.getItem('books')).filter((book) => book.id !== event.target.parentNode.id)
+  localStorage.setItem("books", JSON.stringify(findBook))
+   
+  renderList()
+}
+
+function editList (event) {
+  const findBook = JSON.parse(localStorage.getItem('books')).find((book) => book.id === event.target.parentNode.id)
+  
+  renderForm(findBook)
+}
+
+// function renderForm() {
+//   return 
+  
+//   `
 // }
